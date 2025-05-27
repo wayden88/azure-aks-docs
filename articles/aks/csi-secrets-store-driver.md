@@ -132,6 +132,12 @@ A container using *subPath volume mount* doesn't receive secret updates when it'
     ```azurecli-interactive
     az keyvault secret set --vault-name <keyvault-name> --name ExampleSecret --value MyAKSExampleSecret
     ```
+> [!NOTE]
+> If you encounter the following error message: `(Forbidden) Caller is not authorized to perform action on resource. If role assignments, deny assignments, or role definitions were changed recently, please observe propagation time. Caller: appid=""; oid=""; iss=https://sts.windows.net/"tenantId"/ Action: 'Microsoft.KeyVault/vaults/secrets/setSecret/action' Resource: '/subscriptions/"subscriptionId"/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/<keyvault-name>/secrets/examplesecret' Assignment: (not found) DenyAssignmentId: null DecisionReason: null Vault: <keyvault-name>; location=eastus2` You need to set the Key Vault Scope role assignment such as in the following example:
+> 
+> ```azurecli-interactive
+> az role assignment create --role "Key Vault Secrets Officer" --assignee {assignee-upn} --scope /subscriptions/{subscriptionid}/resourcegroups/{resource-group-name}/providers/Microsoft.KeyVault/vaults/{key-vault-name}
+> ```
 
 1. Take note of the following properties for future use:
 
